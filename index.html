@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RSM VIDEO</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#0f0f0f;
+  color:white;
+  font-family:Arial,sans-serif;
+  padding-bottom:75px;
+}
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:#181818;
+  padding:13px 15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  color:#ff0000;
+  font-size:23px;
+  font-weight:bold;
+}
+
+.channelBtn{
+  background:#ff0000;
+  color:white;
+  border:0;
+  padding:9px 14px;
+  border-radius:20px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.searchBox{
+  padding:12px;
+  background:#0f0f0f;
+}
+
+.searchBox input{
+  width:100%;
+  padding:13px 16px;
+  border:1px solid #333;
+  border-radius:25px;
+  background:#181818;
+  color:white;
+  outline:none;
+  font-size:15px;
+}
+
+.categories{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:5px 12px 13px;
+}
+
+.categories button{
+  white-space:nowrap;
+  border:0;
+  background:#292929;
+  color:white;
+  padding:9px 15px;
+  border-radius:20px;
+}
+
+.categories button.active{
+  background:white;
+  color:black;
+}
+
+.videoList{
+  max-width:850px;
+  margin:auto;
+}
+
+.video{
+  margin-bottom:20px;
+  background:#181818;
+  cursor:pointer;
+}
+
+.thumbnail{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  background:#000;
+  overflow:hidden;
+}
+
+.thumbnail img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.videoInfo{
+  display:flex;
+  gap:12px;
+  padding:11px 13px;
+}
+
+.videoAvatar{
+  width:42px;
+  height:42px;
+  min-width:42px;
+  border-radius:50%;
+  background:#ff0000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:bold;
+}
+
+.videoTitle{
+  font-size:16px;
+  font-weight:bold;
+  line-height:1.4;
+}
+
+.videoMeta{
+  color:#aaa;
+  font-size:13px;
+  margin-top:5px;
+}
+
+.watchBtn{
+  margin-top:8px;
+  display:inline-block;
+  background:#292929;
+  padding:7px 12px;
+  border-radius:6px;
+  font-size:13px;
+}
+
+.message{
+  text-align:center;
+  color:#aaa;
+  padding:35px 15px;
+}
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:65px;
+  background:#181818;
+  border-top:1px solid #333;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:50;
+}
+
+.nav-item{
+  text-decoration:none;
+  color:#aaa;
+  text-align:center;
+  font-size:12px;
+}
+
+.nav-item span{
+  display:block;
+  font-size:21px;
+  margin-bottom:3px;
+}
+
+.nav-item.active{
+  color:white;
+}
+
+@media(min-width:700px){
+  .video{
+    border-radius:12px;
+    overflow:hidden;
+  }
+
+  .videoList{
+    padding:15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+
+  <div class="logo">
+    🔴 RSM VIDEO
+  </div>
+
+  <button
+    class="channelBtn"
+    onclick="openChannel()">
+    👤 Channel
+  </button>
+
+</header>
+
+
+<!-- SEARCH -->
+<div class="searchBox">
+
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="🔍 Search videos..."
+  >
+
+</div>
+
+
+<!-- CATEGORIES -->
+<div class="categories">
+
+  <button
+    class="active"
+    onclick="filterCategory('All',this)">
+    All
+  </button>
+
+  <button
+    onclick="filterCategory('Comedy',this)">
+    😂 Comedy
+  </button>
+
+  <button
+    onclick="filterCategory('Vlog',this)">
+    🎥 Vlog
+  </button>
+
+  <button
+    onclick="filterCategory('Music',this)">
+    🎵 Music
+  </button>
+
+  <button
+    onclick="filterCategory('Shorts',this)">
+    ⚡ Shorts
+  </button>
+
+</div>
+
+
+<!-- VIDEOS -->
+<div
+  class="videoList"
+  id="videoList">
+
+  <div class="message">
+    🎬 Videos લોડ થઈ રહ્યા છે...
+  </div>
+
+</div>
+
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+
+  <a
+    class="nav-item active"
+    href="index.html">
+
+    <span>🏠</span>
+    Home
+
+  </a>
+
+
+  <a
+    class="nav-item"
+    href="upload.html">
+
+    <span>➕</span>
+    Upload
+
+  </a>
+
+
+  <a
+    class="nav-item"
+    href="channel.html">
+
+    <span>👤</span>
+    Channel
+
+  </a>
+
+
+  <a
+    class="nav-item"
+    href="profile.html">
+
+    <span>⚙️</span>
+    Profile
+
+  </a>
+
+</nav>
+
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyDWlmSOewJUk5z2An5Qeabx7AB_AwjFPVc",
+
+  authDomain:
+    "rsm-video-486d6.firebaseapp.com",
+
+  projectId:
+    "rsm-video-486d6",
+
+  storageBucket:
+    "rsm-video-486d6.firebasestorage.app",
+
+  messagingSenderId:
+    "1022944379126",
+
+  appId:
+    "1:1022944379126:web:e3bbf6a341feb47a8d6cd7",
+
+  measurementId:
+    "G-0D39KPEK4B"
+
+};
+
+
+const app =
+  initializeApp(firebaseConfig);
+
+const db =
+  getFirestore(app);
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+let allVideos = [];
+
+let currentCategory = "All";
+
+
+/* =========================
+   OPEN CHANNEL
+========================= */
+
+window.openChannel = function(){
+
+  window.location.href =
+    "channel.html";
+
+};
+
+
+/* =========================
+   LOAD VIDEOS
+========================= */
+
+async function loadVideos(){
+
+  const videoList =
+    document.getElementById(
+      "videoList"
+    );
+
+  try{
+
+    const snapshot =
+      await getDocs(
+        collection(
+          db,
+          "videos"
+        )
+      );
+
+
+    allVideos = [];
+
+
+    snapshot.forEach(
+      docSnap => {
+
+        allVideos.push({
+          id:docSnap.id,
+          ...docSnap.data()
+        });
+
+      }
+    );
+
+
+    /*
+      Newest videos first
+    */
+
+    allVideos.reverse();
+
+
+    displayVideos();
+
+
+  }
+  catch(error){
+
+    console.error(error);
+
+
+    videoList.innerHTML = `
+
+      <div class="message">
+
+        ❌ Videos load થઈ શક્યા નથી.
+
+        <br><br>
+
+        ${escapeHtml(
+          error.message
+        )}
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================
+   DISPLAY VIDEOS
+========================= */
+
+function displayVideos(){
+
+  const videoList =
+    document.getElementById(
+      "videoList"
+    );
+
+
+  let videos =
+    [...allVideos];
+
+
+  /*
+    SEARCH
+  */
+
+  const search =
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  if(search){
+
+    videos =
+      videos.filter(
+        video =>
+
+          (
+            video.title ||
+            ""
+          )
+          .toLowerCase()
+          .includes(search)
+
+      );
+
+  }
+
+
+  /*
+    CATEGORY
+  */
+
+  if(
+    currentCategory !==
+    "All"
+  ){
+
+    videos =
+      videos.filter(
+        video => {
+
+          const title =
+            (
+              video.title ||
+              ""
+            )
+            .toLowerCase();
+
+
+          return title.includes(
+            currentCategory.toLowerCase()
+          );
+
+        }
+      );
+
+  }
+
+
+  /*
+    NO VIDEOS
+  */
+
+  if(videos.length === 0){
+
+    videoList.innerHTML = `
+
+      <div class="message">
+
+        😔 કોઈ Video મળ્યો નથી.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  videoList.innerHTML = "";
+
+
+  /*
+    CREATE VIDEO CARDS
+  */
+
+  videos.forEach(
+    video => {
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "video";
+
+
+      const thumbnail =
+        video.thumbnailUrl ||
+        "https://via.placeholder.com/640x360";
+
+
+      const title =
+        video.title ||
+        "Untitled Video";
+
+
+      const views =
+        video.views ||
+        0;
+
+
+      card.innerHTML = `
+
+        <div class="thumbnail">
+
+          <img
+            src="${thumbnail}"
+            alt="Video Thumbnail"
+          >
+
+        </div>
+
+
+        <div class="videoInfo">
+
+          <div class="videoAvatar">
+            R
+          </div>
+
+          <div>
+
+            <div class="videoTitle">
+
+              ${escapeHtml(title)}
+
+            </div>
+
+            <div class="videoMeta">
+
+              RSM VIDEO
+              •
+              👁️ ${views} views
+
+            </div>
+
+            <div class="watchBtn">
+
+              ▶️ Watch Video
+
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+
+      card.addEventListener(
+        "click",
+        ()=>{
+
+          const url =
+            encodeURIComponent(
+              video.videoUrl ||
+              ""
+            );
+
+
+          const titleParam =
+            encodeURIComponent(
+              title
+            );
+
+
+          window.location.href =
+            "video.html?url=" +
+            url +
+            "&title=" +
+            titleParam;
+
+        }
+      );
+
+
+      videoList.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   CATEGORY FILTER
+========================= */
+
+window.filterCategory =
+function(category,button){
+
+  currentCategory =
+    category;
+
+
+  document
+    .querySelectorAll(
+      ".categories button"
+    )
+    .forEach(
+      btn =>
+        btn.classList.remove(
+          "active"
+        )
+    );
+
+
+  button.classList.add(
+    "active"
+  );
+
+
+  displayVideos();
+
+};
+
+
+/* =========================
+   SEARCH
+========================= */
+
+document
+  .getElementById(
+    "searchInput"
+  )
+  .addEventListener(
+    "input",
+    displayVideos
+  );
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHtml(text){
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.textContent =
+    text;
+
+  return div.innerHTML;
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadVideos();
+
+</script>
+
+</body>
+</html>

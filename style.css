@@ -1,0 +1,263 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0f0f0f;
+  color: white;
+  padding-bottom: 75px;
+}
+
+/* Header */
+
+.header {
+  height: 65px;
+  background: #0f0f0f;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 4%;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.logo span {
+  color: #ff0000;
+}
+
+.search-box {
+  display: flex;
+  flex: 1;
+  max-width: 650px;
+  margin: auto;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 13px 18px;
+  border: 1px solid #444;
+  background: #121212;
+  color: white;
+  border-radius: 25px 0 0 25px;
+  outline: none;
+}
+
+.search-box button {
+  width: 60px;
+  border: none;
+  background: #272727;
+  color: white;
+  border-radius: 0 25px 25px 0;
+}
+
+.profile-btn {
+  border: none;
+  background: #272727;
+  color: white;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+}
+
+/* Categories */
+
+.categories {
+  display: flex;
+  gap: 10px;
+  padding: 12px 4%;
+  overflow-x: auto;
+}
+
+.categories button {
+  background: #272727;
+  color: white;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.categories button:first-child {
+  background: white;
+  color: black;
+}
+
+/* Videos */
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  padding: 20px 4%;
+}
+
+.video-card {
+  position: relative;
+}
+
+.thumbnail {
+  position: relative;
+  cursor: pointer;
+}
+
+.thumbnail img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.duration {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  background: rgba(0,0,0,0.8);
+  padding: 4px 7px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.video-info {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.channel-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ff0000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.video-info h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.video-info p {
+  color: #aaa;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.like-btn {
+  margin-top: 10px;
+  background: #272727;
+  color: white;
+  border: none;
+  padding: 7px 12px;
+  border-radius: 18px;
+}
+
+/* Bottom Navigation */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+  background: #181818;
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 200;
+}
+
+.bottom-nav button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 13px;
+}
+
+.bottom-nav span {
+  display: block;
+  margin-top: 3px;
+}
+
+.plus-btn {
+  font-size: 30px !important;
+}
+
+/* Modal */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  width: 90%;
+  max-width: 900px;
+  position: relative;
+}
+
+.modal iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  border-radius: 10px;
+}
+
+.close-btn {
+  position: absolute;
+  right: -10px;
+  top: -45px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+  .header {
+    gap: 8px;
+  }
+
+  .logo {
+    font-size: 19px;
+  }
+
+  .profile-btn {
+    width: 35px;
+    height: 35px;
+  }
+
+  .video-grid {
+    grid-template-columns: 1fr;
+    padding: 15px;
+  }
+
+  .search-box input {
+    padding: 10px;
+  }
+
+}

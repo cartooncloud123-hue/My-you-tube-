@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="gu">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>RSM Video - Profile</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: white;
+    }
+
+    .header {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      border-bottom: 1px solid #333;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: red;
+    }
+
+    .profile {
+      width: 92%;
+      max-width: 450px;
+      margin: 50px auto;
+      text-align: center;
+      background: #181818;
+      padding: 30px;
+      border-radius: 18px;
+    }
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      margin: auto;
+      border-radius: 50%;
+      background: red;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+
+    .email {
+      color: #aaa;
+      margin: 15px 0 25px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 9px;
+      background: #333;
+      color: white;
+      font-size: 16px;
+    }
+
+    .logout {
+      background: #e00000;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <header class="header">
+
+    <div class="logo">
+      ▶ <span>RSM</span> Video
+    </div>
+
+  </header>
+
+
+  <div class="profile">
+
+    <div class="avatar">
+      👤
+    </div>
+
+    <h2>My Profile</h2>
+
+    <p class="email" id="userEmail">
+      Loading...
+    </p>
+
+    <button
+      onclick="window.location.href='index.html'">
+      🏠 Home
+    </button>
+
+    <button
+      class="logout"
+      onclick="logout()">
+      🚪 Logout
+    </button>
+
+  </div>
+
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+
+    const firebaseConfig = {
+
+      apiKey: "AIzaSyDWlmSOewJUk5z2An5Qeabx7AB_AwjFPVc",
+
+      authDomain: "rsm-video-486d6.firebaseapp.com",
+
+      projectId: "rsm-video-486d6",
+
+      storageBucket: "rsm-video-486d6.firebasestorage.app",
+
+      messagingSenderId: "1022944379126",
+
+      appId: "1:1022944379126:web:e3bbf6a341feb47a8d6cd7",
+
+      measurementId: "G-0D39KPEK4B"
+
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+
+    onAuthStateChanged(auth, (user) => {
+
+      if (user) {
+
+        document.getElementById("userEmail")
+          .innerText = user.email;
+
+      } else {
+
+        window.location.href = "login.html";
+
+      }
+
+    });
+
+
+    window.logout = async function() {
+
+      await signOut(auth);
+
+      window.location.href = "login.html";
+
+    };
+
+  </script>
+
+</body>
+
+</html>

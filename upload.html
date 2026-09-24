@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RSM Video - Upload</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#0f0f0f;
+  color:white;
+  font-family:Arial,sans-serif;
+}
+
+.header{
+  background:#181818;
+  padding:16px;
+  color:red;
+  font-size:23px;
+  font-weight:bold;
+}
+
+.container{
+  max-width:600px;
+  margin:auto;
+  padding:20px;
+}
+
+.box{
+  background:#181818;
+  padding:20px;
+  border-radius:15px;
+}
+
+h2{
+  margin-top:0;
+}
+
+label{
+  display:block;
+  margin-top:15px;
+  margin-bottom:7px;
+  font-weight:bold;
+}
+
+input{
+  width:100%;
+  padding:13px;
+  border-radius:9px;
+  border:1px solid #444;
+  background:#252525;
+  color:white;
+  outline:none;
+}
+
+button{
+  width:100%;
+  margin-top:20px;
+  padding:14px;
+  border:0;
+  border-radius:10px;
+  background:#ff0000;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.preview{
+  margin-top:15px;
+}
+
+.preview img{
+  width:100%;
+  border-radius:10px;
+  display:none;
+}
+
+.status{
+  margin-top:15px;
+  text-align:center;
+  color:#aaa;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  🔴 RSM Video
+</div>
+
+<div class="container">
+
+<div class="box">
+
+<h2>📤 Upload Video</h2>
+
+<label>Video Title</label>
+
+<input
+  type="text"
+  id="title"
+  placeholder="Video નું નામ લખો..."
+>
+
+
+<label>YouTube Video URL</label>
+
+<input
+  type="text"
+  id="videoUrl"
+  placeholder="https://www.youtube.com/watch?v=..."
+>
+
+
+<div class="preview">
+
+<img
+  id="thumbnailPreview"
+  alt="Thumbnail Preview"
+>
+
+</div>
+
+
+<button id="saveBtn">
+  🚀 Upload Video
+</button>
+
+
+<div class="status" id="status">
+  🔐 Login ચેક થઈ રહ્યું છે...
+</div>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+
+/* Firebase Config */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyDWlmSOewJUk5z2An5Qeabx7AB_AwjFPVc",
+
+  authDomain:
+    "rsm-video-486d6.firebaseapp.com",
+
+  projectId:
+    "rsm-video-486d6",
+
+  storageBucket:
+    "rsm-video-486d6.firebasestorage.app",
+
+  messagingSenderId:
+    "1022944379126",
+
+  appId:
+    "1:1022944379126:web:e3bbf6a341feb47a8d6cd7",
+
+  measurementId:
+    "G-0D39KPEK4B"
+};
+
+
+const app =
+  initializeApp(firebaseConfig);
+
+const db =
+  getFirestore(app);
+
+const auth =
+  getAuth(app);
+
+
+/* Elements */
+
+const titleInput =
+  document.getElementById("title");
+
+const videoInput =
+  document.getElementById("videoUrl");
+
+const preview =
+  document.getElementById("thumbnailPreview");
+
+const status =
+  document.getElementById("status");
+
+const saveBtn =
+  document.getElementById("saveBtn");
+
+
+let currentUser = null;
+
+
+/* Login Check */
+
+onAuthStateChanged(auth,(user)=>{
+
+  currentUser = user;
+
+  if(user){
+
+    status.textContent =
+      "✅ Login: " + user.email;
+
+  }else{
+
+    status.textContent =
+      "🔐 પહેલા Login કરો.";
+
+  }
+
+});
+
+
+/* Get YouTube ID */
+
+function getYouTubeId(link){
+
+  try{
+
+    const url =
+      new URL(link);
+
+    if(
+      url.hostname.includes("youtu.be")
+    ){
+
+      return url.pathname
+        .substring(1)
+        .split("?")[0];
+
+    }
+
+    if(
+      url.hostname.includes("youtube.com")
+    ){
+
+      return url.searchParams.get("v");
+
+    }
+
+  }catch(error){
+
+    return null;
+
+  }
+
+  return null;
+
+}
+
+
+/* Auto Thumbnail */
+
+videoInput.addEventListener(
+  "input",
+  ()=>{
+
+    const id =
+      getYouTubeId(
+        videoInput.value.trim()
+      );
+
+
+    if(id){
+
+      const thumbnail =
+        "https://i.ytimg.com/vi/" +
+        id +
+        "/hqdefault.jpg";
+
+
+      preview.src =
+        thumbnail;
+
+      preview.style.display =
+        "block";
+
+    }else{
+
+      preview.style.display =
+        "none";
+
+    }
+
+  }
+);
+
+
+/* Save Video */
+
+saveBtn.addEventListener(
+  "click",
+  async()=>{
+
+    const title =
+      titleInput.value.trim();
+
+    const videoUrl =
+      videoInput.value.trim();
+
+
+    if(!currentUser){
+
+      alert(
+        "🔐 પહેલા Login કરો."
+      );
+
+      window.location.href =
+        "login.html";
+
+      return;
+
+    }
+
+
+    if(!title){
+
+      alert(
+        "⚠️ Video Title લખો."
+      );
+
+      return;
+
+    }
+
+
+    if(!videoUrl){
+
+      alert(
+        "⚠️ YouTube URL નાખો."
+      );
+
+      return;
+
+    }
+
+
+    const youtubeId =
+      getYouTubeId(videoUrl);
+
+
+    if(!youtubeId){
+
+      alert(
+        "❌ સાચો YouTube URL નાખો."
+      );
+
+      return;
+
+    }
+
+
+    const thumbnailUrl =
+      "https://i.ytimg.com/vi/" +
+      youtubeId +
+      "/hqdefault.jpg";
+
+
+    saveBtn.disabled =
+      true;
+
+    saveBtn.textContent =
+      "⏳ Upload થઈ રહ્યું છે...";
+
+
+    try{
+
+      await addDoc(
+        collection(db,"videos"),
+        {
+
+          title:title,
+
+          videoUrl:videoUrl,
+
+          thumbnailUrl:
+            thumbnailUrl,
+
+          userId:
+            currentUser.uid,
+
+          userEmail:
+            currentUser.email,
+
+          views:0,
+
+          likes:0,
+
+          createdAt:
+            serverTimestamp()
+
+        }
+      );
+
+
+      alert(
+        "✅ Video successfully added!"
+      );
+
+
+      titleInput.value = "";
+
+      videoInput.value = "";
+
+      preview.style.display =
+        "none";
+
+
+    }catch(error){
+
+      console.error(error);
+
+      alert(
+        "❌ Video save થઈ શક્યો નથી."
+      );
+
+    }
+
+
+    saveBtn.disabled =
+      false;
+
+    saveBtn.textContent =
+      "🚀 Upload Video";
+
+  }
+);
+
+</script>
+
+</body>
+</html>

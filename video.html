@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RSM VIDEO</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#0f0f0f;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+
+.header{
+  background:#181818;
+  padding:14px 16px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.logo{
+  color:#ff0000;
+  font-size:22px;
+  font-weight:bold;
+}
+
+.container{
+  max-width:850px;
+  margin:auto;
+}
+
+.player{
+  width:100%;
+  aspect-ratio:16/9;
+  background:#000;
+}
+
+.player iframe{
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+.info{
+  padding:16px;
+}
+
+.title{
+  font-size:21px;
+  font-weight:bold;
+  line-height:1.4;
+}
+
+.meta{
+  color:#aaa;
+  margin-top:8px;
+  font-size:14px;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:16px;
+  overflow-x:auto;
+}
+
+.actionBtn{
+  border:0;
+  background:#292929;
+  color:#fff;
+  padding:11px 17px;
+  border-radius:22px;
+  font-size:14px;
+  white-space:nowrap;
+  cursor:pointer;
+}
+
+.actionBtn.liked{
+  background:#ff1744;
+}
+
+.channel{
+  margin-top:18px;
+  background:#181818;
+  padding:14px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.channelLeft{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.avatar{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:#ff0000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.channelName{
+  font-weight:bold;
+}
+
+.channelLink{
+  color:#aaa;
+  font-size:13px;
+  margin-top:4px;
+}
+
+.channelButton{
+  background:#fff;
+  color:#000;
+  border:0;
+  padding:9px 14px;
+  border-radius:20px;
+  font-weight:bold;
+}
+
+.comments{
+  padding:16px;
+}
+
+.comments h2{
+  font-size:19px;
+}
+
+.commentForm{
+  display:flex;
+  gap:8px;
+  margin-top:15px;
+}
+
+.commentForm input{
+  flex:1;
+  padding:12px;
+  border:1px solid #333;
+  border-radius:22px;
+  background:#181818;
+  color:#fff;
+  outline:none;
+}
+
+.commentForm button{
+  border:0;
+  border-radius:22px;
+  padding:0 17px;
+  background:#ff0000;
+  color:#fff;
+  font-weight:bold;
+}
+
+.comment{
+  background:#181818;
+  padding:12px;
+  margin-top:12px;
+  border-radius:10px;
+}
+
+.commentEmail{
+  font-size:13px;
+  color:#aaa;
+  margin-bottom:5px;
+}
+
+.commentText{
+  line-height:1.4;
+}
+
+.message{
+  text-align:center;
+  color:#aaa;
+  padding:25px;
+}
+
+.error{
+  background:#351010;
+  color:#ff7777;
+  padding:15px;
+  margin:15px;
+  border-radius:10px;
+}
+
+.back{
+  display:block;
+  margin:20px 16px;
+  padding:13px;
+  text-align:center;
+  background:#292929;
+  color:#fff;
+  text-decoration:none;
+  border-radius:10px;
+}
+
+@media(max-width:600px){
+
+  .title{
+    font-size:18px;
+  }
+
+  .actions{
+    padding-bottom:3px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <div class="logo">🔴 RSM VIDEO</div>
+</div>
+
+<div class="container">
+
+  <!-- VIDEO PLAYER -->
+  <div class="player" id="player">
+    <div class="message">
+      🎬 Video લોડ થઈ રહ્યો છે...
+    </div>
+  </div>
+
+
+  <!-- VIDEO INFO -->
+  <div class="info">
+
+    <div
+      class="title"
+      id="videoTitle">
+      Video લોડ થઈ રહ્યો છે...
+    </div>
+
+    <div
+      class="meta"
+      id="videoMeta">
+      👁️ 0 views
+    </div>
+
+
+    <!-- ACTIONS -->
+    <div class="actions">
+
+      <button
+        class="actionBtn"
+        id="likeBtn">
+        ❤️ Like
+        <span id="likeCount">0</span>
+      </button>
+
+      <button
+        class="actionBtn"
+        id="shareBtn">
+        📤 Share
+      </button>
+
+    </div>
+
+
+    <!-- CHANNEL -->
+    <div class="channel">
+
+      <div class="channelLeft">
+
+        <div class="avatar">
+          R
+        </div>
+
+        <div>
+
+          <div class="channelName">
+            RSM VIDEO
+          </div>
+
+          <div class="channelLink">
+            @rsmvideo
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="channelButton"
+        onclick="openChannel()">
+        View Channel
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- COMMENTS -->
+  <div class="comments">
+
+    <h2>
+      💬 Comments
+    </h2>
+
+    <div class="commentForm">
+
+      <input
+        type="text"
+        id="commentInput"
+        placeholder="Write a comment..."
+      >
+
+      <button
+        id="commentBtn">
+        Send
+      </button>
+
+    </div>
+
+
+    <div id="commentList">
+
+      <div class="message">
+        Comments લોડ થઈ રહ્યા છે...
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<a
+  href="index.html"
+  class="back">
+  ◀️ Home પર પાછા જાઓ
+</a>
+
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+  increment,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+
+/* =========================
+   FIREBASE
+========================= */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyDWlmSOewJUk5z2An5Qeabx7AB_AwjFPVc",
+
+  authDomain:
+    "rsm-video-486d6.firebaseapp.com",
+
+  projectId:
+    "rsm-video-486d6",
+
+  storageBucket:
+    "rsm-video-486d6.firebasestorage.app",
+
+  messagingSenderId:
+    "1022944379126",
+
+  appId:
+    "1:1022944379126:web:e3bbf6a341feb47a8d6cd7",
+
+  measurementId:
+    "G-0D39KPEK4B"
+
+};
+
+
+const app =
+  initializeApp(firebaseConfig);
+
+const db =
+  getFirestore(app);
+
+const auth =
+  getAuth(app);
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+let currentUser = null;
+
+let currentVideoDoc = null;
+
+let liked = false;
+
+
+/* =========================
+   GET URL
+========================= */
+
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+
+const videoUrl =
+  params.get("url");
+
+
+const urlTitle =
+  params.get("title") ||
+  "RSM VIDEO";
+
+
+/* =========================
+   YOUTUBE ID
+========================= */
+
+function getYoutubeId(url){
+
+  if(!url){
+    return null;
+  }
+
+  try{
+
+    const parsed =
+      new URL(url);
+
+
+    if(
+      parsed.hostname.includes(
+        "youtu.be"
+      )
+    ){
+
+      return parsed.pathname
+        .replace("/","")
+        .split("?")[0];
+
+    }
+
+
+    if(
+      parsed.hostname.includes(
+        "youtube.com"
+      )
+    ){
+
+      return parsed.searchParams
+        .get("v");
+
+    }
+
+  }
+  catch(error){
+
+    console.log(error);
+
+  }
+
+  return null;
+
+}
+
+
+/* =========================
+   LOAD VIDEO
+========================= */
+
+async function loadVideo(){
+
+  const player =
+    document.getElementById(
+      "player"
+    );
+
+
+  if(!videoUrl){
+
+    player.innerHTML = `
+      <div class="message">
+        ❌ Video URL મળ્યો નથી.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  const youtubeId =
+    getYoutubeId(
+      videoUrl
+    );
+
+
+  if(youtubeId){
+
+    player.innerHTML = `
+
+      <iframe
+        src="https://www.youtube.com/embed/${youtubeId}"
+        title="RSM VIDEO"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+
+    `;
+
+  }
+
+
+  try{
+
+    const q =
+      query(
+        collection(
+          db,
+          "videos"
+        ),
+
+        where(
+          "videoUrl",
+          "==",
+          videoUrl
+        )
+      );
+
+
+    const snapshot =
+      await getDocs(q);
+
+
+    if(
+      snapshot.empty
+    ){
+
+      document.getElementById(
+        "videoTitle"
+      ).textContent =
+        urlTitle;
+
+      return;
+
+    }
+
+
+    const videoDoc =
+      snapshot.docs[0];
+
+
+    currentVideoDoc =
+      videoDoc;
+
+
+    const data =
+      videoDoc.data();
+
+
+    document.getElementById(
+      "videoTitle"
+    ).textContent =
+      data.title ||
+      urlTitle;
+
+
+    document.getElementById(
+      "videoMeta"
+    ).textContent =
+      "👁️ " +
+      (data.views || 0) +
+      " views";
+
+
+    document.getElementById(
+      "likeCount"
+    ).textContent =
+      data.likes || 0;
+
+
+    /*
+      View increment
+    */
+
+    await updateDoc(
+      doc(
+        db,
+        "videos",
+        videoDoc.id
+      ),
+      {
+        views:
+          increment(1)
+      }
+    );
+
+
+    document.getElementById(
+      "videoMeta"
+    ).textContent =
+      "👁️ " +
+      ((data.views || 0) + 1) +
+      " views";
+
+
+    await loadComments();
+
+  }
+  catch(error){
+
+    console.error(
+      error
+    );
+
+    document.getElementById(
+      "videoTitle"
+    ).textContent =
+      urlTitle;
+
+  }
+
+}
+
+
+/* =========================
+   AUTH
+========================= */
+
+onAuthStateChanged(
+  auth,
+  user => {
+
+    currentUser =
+      user;
+
+  }
+);
+
+
+/* =========================
+   LIKE
+========================= */
+
+document
+  .getElementById(
+    "likeBtn"
+  )
+  .addEventListener(
+    "click",
+    async()=>{
+
+      if(!currentVideoDoc){
+
+        alert(
+          "Video હજુ load થઈ રહ્યો છે."
+        );
+
+        return;
+
+      }
+
+
+      if(!currentUser){
+
+        alert(
+          "❤️ Like કરવા માટે પહેલા Login કરો."
+        );
+
+        window.location.href =
+          "login.html";
+
+        return;
+
+      }
+
+
+      const likeBtn =
+        document.getElementById(
+          "likeBtn"
+        );
+
+
+      likeBtn.disabled =
+        true;
+
+
+      try{
+
+        const videoRef =
+          doc(
+            db,
+            "videos",
+            currentVideoDoc.id
+          );
+
+
+        if(!liked){
+
+          await updateDoc(
+            videoRef,
+            {
+              likes:
+                increment(1)
+            }
+          );
+
+
+          liked =
+            true;
+
+
+          likeBtn.classList.add(
+            "liked"
+          );
+
+
+          likeBtn.innerHTML =
+            "❤️ Liked <span id='likeCount'></span>";
+
+
+          const count =
+            Number(
+              document
+                .getElementById(
+                  "likeCount"
+                )
+                ?.textContent || 0
+            );
+
+
+          document.getElementById(
+            "likeBtn"
+          ).innerHTML =
+            "❤️ Liked <span id='likeCount'>" +
+            (count + 1) +
+            "</span>";
+
+        }
+        else{
+
+          await updateDoc(
+            videoRef,
+            {
+              likes:
+                increment(-1)
+            }
+          );
+
+
+          liked =
+            false;
+
+
+          likeBtn.classList.remove(
+            "liked"
+          );
+
+
+          const count =
+            Number(
+              document
+                .getElementById(
+                  "likeCount"
+                )
+                ?.textContent || 0
+            );
+
+
+          likeBtn.innerHTML =
+            "❤️ Like <span id='likeCount'>" +
+            Math.max(
+              0,
+              count - 1
+            ) +
+            "</span>";
+
+        }
+
+      }
+      catch(error){
+
+        alert(
+          "❌ Like error:\n" +
+          error.message
+        );
+
+      }
+
+
+      likeBtn.disabled =
+        false;
+
+    }
+  );
+
+
+/* =========================
+   SHARE
+========================= */
+
+document
+  .getElementById(
+    "shareBtn"
+  )
+  .addEventListener(
+    "click",
+    async()=>{
+
+      const shareData = {
+
+        title:
+          document
+            .getElementById(
+              "videoTitle"
+            )
+            .textContent,
+
+        text:
+          "RSM VIDEO પર આ video જુઓ 🎬",
+
+        url:
+          window.location.href
+
+      };
+
+
+      try{
+
+        if(
+          navigator.share
+        ){
+
+          await navigator.share(
+            shareData
+          );
+
+        }
+        else{
+
+          await navigator.clipboard.writeText(
+            window.location.href
+          );
+
+          alert(
+            "🔗 Video link copied!"
+          );
+
+        }
+
+      }
+      catch(error){
+
+        console.log(
+          error
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================
+   COMMENTS
+========================= */
+
+async function loadComments(){
+
+  if(!videoUrl){
+
+    return;
+
+  }
+
+
+  const list =
+    document.getElementById(
+      "commentList"
+    );
+
+
+  try{
+
+    const q =
+      query(
+
+        collection(
+          db,
+          "comments"
+        ),
+
+        where(
+          "videoUrl",
+          "==",
+          videoUrl
+        )
+
+      );
+
+
+    const snapshot =
+      await getDocs(q);
+
+
+    list.innerHTML =
+      "";
+
+
+    if(
+      snapshot.empty
+    ){
+
+      list.innerHTML = `
+
+        <div class="message">
+          💬 હજુ કોઈ comment નથી.
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    snapshot.forEach(
+      docSnap => {
+
+        const data =
+          docSnap.data();
+
+
+        const div =
+          document.createElement(
+            "div"
+          );
+
+
+        div.className =
+          "comment";
+
+
+        div.innerHTML = `
+
+          <div class="commentEmail">
+
+            👤 ${
+              escapeHtml(
+                data.userEmail ||
+                "User"
+              )
+            }
+
+          </div>
+
+          <div class="commentText">
+
+            ${escapeHtml(
+              data.comment ||
+              ""
+            )}
+
+          </div>
+
+        `;
+
+
+        list.appendChild(
+          div
+        );
+
+      }
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      error
+    );
+
+
+    list.innerHTML = `
+
+      <div class="message">
+        ❌ Comments load error.
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================
+   ADD COMMENT
+========================= */
+
+document
+  .getElementById(
+    "commentBtn"
+  )
+  .addEventListener(
+    "click",
+    async()=>{
+
+      if(!currentUser){
+
+        alert(
+          "💬 Comment કરવા માટે પહેલા Login કરો."
+        );
+
+        window.location.href =
+          "login.html";
+
+        return;
+
+      }
+
+
+      const input =
+        document.getElementById(
+          "commentInput"
+        );
+
+
+      const comment =
+        input.value.trim();
+
+
+      if(!comment){
+
+        alert(
+          "Comment લખો."
+        );
+
+        return;
+
+      }
+
+
+      try{
+
+        await addDoc(
+          collection(
+            db,
+            "comments"
+          ),
+          {
+
+            videoUrl:
+              videoUrl,
+
+            comment:
+              comment,
+
+            userEmail:
+              currentUser.email ||
+              "",
+
+            createdAt:
+              serverTimestamp()
+
+          }
+        );
+
+
+        input.value =
+          "";
+
+
+        await loadComments();
+
+
+      }
+      catch(error){
+
+        alert(
+          "❌ Comment error:\n" +
+          error.message
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================
+   CHANNEL
+========================= */
+
+window.openChannel =
+function(){
+
+  window.location.href =
+    "channel.html";
+
+};
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHtml(text){
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.textContent =
+    text;
+
+  return div.innerHTML;
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadVideo();
+
+</script>
+
+</body>
+</html>

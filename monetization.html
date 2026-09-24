@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RSM VIDEO - Monetization</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f5f7;
+    color:#222;
+}
+
+.header{
+    background:#111;
+    color:white;
+    padding:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.logo{
+    font-size:21px;
+    font-weight:bold;
+}
+
+.back{
+    border:0;
+    background:#e50914;
+    color:white;
+    padding:9px 15px;
+    border-radius:20px;
+}
+
+.container{
+    max-width:850px;
+    margin:auto;
+    padding:18px;
+}
+
+.hero{
+    background:linear-gradient(135deg,#e50914,#ff5722);
+    color:white;
+    padding:25px;
+    border-radius:20px;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:27px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    line-height:1.5;
+}
+
+.target{
+    margin-top:18px;
+    background:white;
+    color:#e50914;
+    padding:12px;
+    border-radius:12px;
+    font-weight:bold;
+    text-align:center;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    margin-bottom:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.card h2{
+    margin-bottom:15px;
+}
+
+.big{
+    font-size:38px;
+    font-weight:bold;
+    color:#e50914;
+}
+
+.center{
+    text-align:center;
+}
+
+.progress{
+    width:100%;
+    height:20px;
+    background:#ddd;
+    border-radius:30px;
+    overflow:hidden;
+    margin:15px 0;
+}
+
+.progressBar{
+    height:100%;
+    width:0%;
+    background:#e50914;
+    transition:.5s;
+}
+
+.percent{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.box{
+    background:#fafafa;
+    padding:16px;
+    border-radius:14px;
+    text-align:center;
+}
+
+.box h3{
+    color:#777;
+    font-size:14px;
+    margin-bottom:7px;
+}
+
+.value{
+    font-size:23px;
+    font-weight:bold;
+}
+
+.green{
+    color:#159447;
+}
+
+button.action{
+    width:100%;
+    padding:14px;
+    margin-top:10px;
+    border:0;
+    border-radius:12px;
+    background:#111;
+    color:white;
+    font-size:16px;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    margin-top:8px;
+    font-size:16px;
+}
+
+.note{
+    background:#fff3cd;
+    color:#664d03;
+    padding:15px;
+    border-radius:12px;
+    line-height:1.5;
+    margin-top:15px;
+}
+
+.footer{
+    text-align:center;
+    color:#777;
+    padding:25px;
+}
+
+@media(max-width:600px){
+    .hero h1{
+        font-size:23px;
+    }
+
+    .big{
+        font-size:32px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+    <div class="logo">
+        🔴 RSM VIDEO
+    </div>
+
+    <button class="back" onclick="history.back()">
+        ← Back
+    </button>
+
+</div>
+
+
+<div class="container">
+
+    <div class="hero">
+
+        <h1>💰 Content Monetization</h1>
+
+        <p>
+            3,000 કલાક Watch Time Monetization Progress
+        </p>
+
+        <div class="target">
+            🎯 Target: 3,000 Hours
+        </div>
+
+    </div>
+
+
+    <!-- WATCH TIME -->
+
+    <div class="card center">
+
+        <h2>⏱️ Watch Time</h2>
+
+        <div class="big" id="hours">
+            0 કલાક
+        </div>
+
+        <p>
+            Target: 3,000 કલાક
+        </p>
+
+        <div class="progress">
+
+            <div
+                class="progressBar"
+                id="progressBar">
+            </div>
+
+        </div>
+
+        <div class="percent" id="percent">
+            0%
+        </div>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="grid">
+
+        <div class="box">
+
+            <h3>🎯 Target</h3>
+
+            <div class="value">
+                3,000 કલાક
+            </div>
+
+        </div>
+
+
+        <div class="box">
+
+            <h3>⏳ Remaining</h3>
+
+            <div
+                class="value"
+                id="remaining">
+                3,000 કલાક
+            </div>
+
+        </div>
+
+
+        <div class="box">
+
+            <h3>⏱️ Minutes</h3>
+
+            <div
+                class="value"
+                id="minutes">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="box">
+
+            <h3>📊 Progress</h3>
+
+            <div
+                class="value green"
+                id="progressText">
+                0%
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MANUAL WATCH TIME -->
+
+    <div class="card">
+
+        <h2>⚙️ Watch Time Update</h2>
+
+        <p>
+            અહીં તમારી actual watch time મિનિટમાં દાખલ કરો.
+        </p>
+
+        <input
+            type="number"
+            id="watchInput"
+            placeholder="Example: 1500">
+
+        <button
+            class="action"
+            onclick="updateWatchTime()">
+
+            💾 Update Watch Time
+
+        </button>
+
+    </div>
+
+
+    <!-- SUCCESS -->
+
+    <div
+        class="card center"
+        id="successBox"
+        style="display:none;">
+
+        <h2>🎉 3,000 Hours Complete!</h2>
+
+        <p>
+            તમારી 3,000 કલાકની target અહીં complete થઈ છે.
+        </p>
+
+    </div>
+
+
+    <div class="note">
+
+        ⚠️ <b>Important:</b><br>
+
+        આ tracker માત્ર તમારી website પર progress ગણવા માટે છે.
+        Actual YouTube monetization eligibility YouTubeના પોતાના
+        rules, valid public watch hours અને અન્ય eligibility
+        requirements પર આધારિત હોય છે.
+
+    </div>
+
+
+</div>
+
+
+<div class="footer">
+
+    © 2026 RSM VIDEO 🎬
+
+</div>
+
+
+<script>
+
+const TARGET_MINUTES = 3000 * 60;
+
+
+// Load saved watch time
+
+let watchTime =
+    Number(localStorage.getItem("rsmWatchTime")) || 0;
+
+
+// Update screen
+
+function updateScreen(){
+
+    let completedMinutes = watchTime;
+
+    let completedHours =
+        completedMinutes / 60;
+
+    let remainingMinutes =
+        Math.max(
+            TARGET_MINUTES - completedMinutes,
+            0
+        );
+
+    let remainingHours =
+        remainingMinutes / 60;
+
+    let progress =
+        Math.min(
+            (completedMinutes / TARGET_MINUTES) * 100,
+            100
+        );
+
+
+    document.getElementById("hours").innerText =
+        completedHours.toFixed(1) + " કલાક";
+
+
+    document.getElementById("minutes").innerText =
+        completedMinutes.toLocaleString();
+
+
+    document.getElementById("remaining").innerText =
+        remainingHours.toFixed(1) + " કલાક";
+
+
+    document.getElementById("percent").innerText =
+        progress.toFixed(2) + "%";
+
+
+    document.getElementById("progressText").innerText =
+        progress.toFixed(2) + "%";
+
+
+    document.getElementById("progressBar").style.width =
+        progress + "%";
+
+
+    if(completedMinutes >= TARGET_MINUTES){
+
+        document.getElementById("successBox").style.display =
+            "block";
+
+    }else{
+
+        document.getElementById("successBox").style.display =
+            "none";
+
+    }
+
+}
+
+
+// Manual update
+
+function updateWatchTime(){
+
+    const input =
+        document.getElementById("watchInput");
+
+    const value =
+        Number(input.value);
+
+
+    if(!value || value < 0){
+
+        alert("કૃપા કરીને સાચી minutes નાખો.");
+
+        return;
+    }
+
+
+    watchTime = value;
+
+
+    localStorage.setItem(
+        "rsmWatchTime",
+        watchTime
+    );
+
+
+    input.value = "";
+
+
+    updateScreen();
+
+    alert("Watch Time Updated ✅");
+
+}
+
+
+updateScreen();
+
+</script>
+
+</body>
+</html>

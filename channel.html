@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RSM VIDEO Channel</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#0f0f0f;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  padding-bottom:30px;
+}
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:#181818;
+  padding:14px 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  color:#ff0000;
+  font-size:22px;
+  font-weight:bold;
+}
+
+.notifyBtn{
+  background:#292929;
+  border:0;
+  color:#fff;
+  padding:9px 13px;
+  border-radius:20px;
+  font-size:16px;
+}
+
+.banner{
+  height:190px;
+  background:
+    linear-gradient(
+      135deg,
+      #ff0000,
+      #870000,
+      #160000
+    );
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:38px;
+  font-weight:bold;
+}
+
+.channelBox{
+  max-width:850px;
+  margin:auto;
+  background:#181818;
+  padding:20px;
+}
+
+.channelTop{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.avatar{
+  width:85px;
+  height:85px;
+  min-width:85px;
+  border-radius:50%;
+  background:#ff0000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:35px;
+  font-weight:bold;
+}
+
+.channelName{
+  font-size:23px;
+  font-weight:bold;
+}
+
+.handle{
+  color:#aaa;
+  margin-top:6px;
+}
+
+.subscribers{
+  color:#bbb;
+  margin-top:8px;
+}
+
+.subscribeBtn{
+  width:100%;
+  margin-top:20px;
+  padding:14px;
+  border:0;
+  border-radius:25px;
+  background:#ff0000;
+  color:#fff;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.subscribeBtn.subscribed{
+  background:#333;
+}
+
+.subscribeBtn:disabled{
+  opacity:.6;
+}
+
+.description{
+  margin-top:17px;
+  color:#ccc;
+  line-height:1.5;
+}
+
+.loginInfo{
+  margin-top:12px;
+  color:#aaa;
+  font-size:13px;
+}
+
+.notificationBox{
+  display:none;
+  max-width:850px;
+  margin:auto;
+  background:#181818;
+  padding:16px;
+}
+
+.notificationBox.show{
+  display:block;
+}
+
+.notification{
+  padding:13px;
+  border-bottom:1px solid #333;
+}
+
+.notification:last-child{
+  border-bottom:0;
+}
+
+.notificationTitle{
+  font-weight:bold;
+}
+
+.notificationTime{
+  color:#888;
+  font-size:12px;
+  margin-top:5px;
+}
+
+.videos{
+  max-width:850px;
+  margin:auto;
+  padding:20px;
+}
+
+.videos h2{
+  margin-top:0;
+}
+
+.video{
+  background:#181818;
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:18px;
+  cursor:pointer;
+}
+
+.video img{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  display:block;
+}
+
+.videoInfo{
+  padding:13px;
+}
+
+.videoTitle{
+  font-size:17px;
+  font-weight:bold;
+  line-height:1.4;
+}
+
+.views{
+  color:#aaa;
+  margin-top:7px;
+  font-size:14px;
+}
+
+.message{
+  text-align:center;
+  color:#aaa;
+  padding:25px 10px;
+}
+
+.error{
+  background:#351010;
+  color:#ff7777;
+  padding:15px;
+  border-radius:10px;
+  margin-top:15px;
+  line-height:1.5;
+}
+
+.back{
+  display:block;
+  max-width:850px;
+  margin:0 auto 20px;
+  padding:14px;
+  text-align:center;
+  background:#292929;
+  color:#fff;
+  text-decoration:none;
+  border-radius:10px;
+}
+
+@media(max-width:600px){
+
+  .banner{
+    height:140px;
+    font-size:30px;
+  }
+
+  .avatar{
+    width:70px;
+    height:70px;
+    min-width:70px;
+    font-size:28px;
+  }
+
+  .channelName{
+    font-size:20px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+  <div class="logo">
+    🔴 RSM VIDEO
+  </div>
+
+  <button
+    class="notifyBtn"
+    id="notifyBtn">
+    🔔
+  </button>
+
+</div>
+
+
+<!-- BANNER -->
+
+<div class="banner">
+  RSM VIDEO
+</div>
+
+
+<!-- CHANNEL -->
+
+<div class="channelBox">
+
+  <div class="channelTop">
+
+    <div class="avatar">
+      R
+    </div>
+
+    <div>
+
+      <div
+        class="channelName"
+        id="channelName">
+        RSM VIDEO
+      </div>
+
+      <div
+        class="handle"
+        id="handle">
+        @rsmvideo
+      </div>
+
+      <div class="subscribers">
+
+        👥
+        <span id="subscriberCount">
+          0
+        </span>
+        Subscribers
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <button
+    class="subscribeBtn"
+    id="subscribeBtn">
+    🔔 Subscribe
+  </button>
+
+
+  <div
+    class="description"
+    id="description">
+    RSM VIDEO Official Channel 🎬
+  </div>
+
+
+  <div
+    class="loginInfo"
+    id="loginInfo">
+    Login status checking...
+  </div>
+
+</div>
+
+
+<!-- NOTIFICATIONS -->
+
+<div
+  class="notificationBox"
+  id="notificationBox">
+
+  <h3>
+    🔔 Notifications
+  </h3>
+
+  <div
+    id="notificationList">
+
+    <div class="message">
+      Notifications લોડ થઈ રહ્યા છે...
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- VIDEOS -->
+
+<div class="videos">
+
+  <h2>
+    🎬 Channel Videos
+  </h2>
+
+  <div id="videoList">
+
+    <div class="message">
+      Videos લોડ થઈ રહ્યા છે...
+    </div>
+
+  </div>
+
+</div>
+
+
+<a
+  href="index.html"
+  class="back">
+
+  ◀️ Home પર પાછા જાઓ
+
+</a>
+
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+  addDoc,
+  deleteDoc,
+  updateDoc,
+  increment,
+  setDoc,
+  orderBy,
+  limit,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyDWlmSOewJUk5z2An5Qeabx7AB_AwjFPVc",
+
+  authDomain:
+    "rsm-video-486d6.firebaseapp.com",
+
+  projectId:
+    "rsm-video-486d6",
+
+  storageBucket:
+    "rsm-video-486d6.firebasestorage.app",
+
+  messagingSenderId:
+    "1022944379126",
+
+  appId:
+    "1:1022944379126:web:e3bbf6a341feb47a8d6cd7",
+
+  measurementId:
+    "G-0D39KPEK4B"
+
+};
+
+
+const app =
+  initializeApp(firebaseConfig);
+
+const db =
+  getFirestore(app);
+
+const auth =
+  getAuth(app);
+
+
+/* =========================
+   CHANNEL UID
+========================= */
+
+const CHANNEL_UID =
+  "pN3h0cth5qd3kX13RfJF2UQrYuo2";
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+let currentUser = null;
+
+let channelRef = null;
+
+let isSubscribed = false;
+
+let subscriptionId = null;
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const channelName =
+  document.getElementById(
+    "channelName"
+  );
+
+const handle =
+  document.getElementById(
+    "handle"
+  );
+
+const subscriberCount =
+  document.getElementById(
+    "subscriberCount"
+  );
+
+const description =
+  document.getElementById(
+    "description"
+  );
+
+const subscribeBtn =
+  document.getElementById(
+    "subscribeBtn"
+  );
+
+const loginInfo =
+  document.getElementById(
+    "loginInfo"
+  );
+
+const videoList =
+  document.getElementById(
+    "videoList"
+  );
+
+const notifyBtn =
+  document.getElementById(
+    "notifyBtn"
+  );
+
+const notificationBox =
+  document.getElementById(
+    "notificationBox"
+  );
+
+const notificationList =
+  document.getElementById(
+    "notificationList"
+  );
+
+
+/* =========================
+   GET CHANNEL
+========================= */
+
+async function getOrCreateChannel(){
+
+  const directRef =
+    doc(
+      db,
+      "channels",
+      CHANNEL_UID
+    );
+
+
+  let snap =
+    await getDoc(
+      directRef
+    );
+
+
+  /*
+    Channel મળી ગયો
+  */
+
+  if(snap.exists()){
+
+    channelRef =
+      directRef;
+
+    return snap.data();
+
+  }
+
+
+  /*
+    UID fieldથી શોધો
+  */
+
+  const q =
+    query(
+      collection(
+        db,
+        "channels"
+      ),
+
+      where(
+        "userId",
+        "==",
+        CHANNEL_UID
+      ),
+
+      limit(1)
+    );
+
+
+  const result =
+    await getDocs(q);
+
+
+  if(!result.empty){
+
+    channelRef =
+      result.docs[0].ref;
+
+    return result.docs[0].data();
+
+  }
+
+
+  /*
+    Channel ન હોય તો
+    નવો channel બનાવો
+  */
+
+  if(currentUser){
+
+    await setDoc(
+      directRef,
+      {
+
+        userId:
+          CHANNEL_UID,
+
+        channelName:
+          "RSM VIDEO",
+
+        handle:
+          "@rsmvideo",
+
+        description:
+          "RSM VIDEO Official Channel 🎬",
+
+        subscribers:
+          0,
+
+        createdAt:
+          new Date().toISOString()
+
+      }
+    );
+
+
+    channelRef =
+      directRef;
+
+
+    snap =
+      await getDoc(
+        directRef
+      );
+
+
+    return snap.data();
+
+  }
+
+
+  return {
+
+    userId:
+      CHANNEL_UID,
+
+    channelName:
+      "RSM VIDEO",
+
+    handle:
+      "@rsmvideo",
+
+    description:
+      "RSM VIDEO Official Channel 🎬",
+
+    subscribers:
+      0
+
+  };
+
+}
+
+
+/* =========================
+   LOAD CHANNEL
+========================= */
+
+async function loadChannel(){
+
+  try{
+
+    const data =
+      await getOrCreateChannel();
+
+
+    channelName.textContent =
+      data.channelName ||
+      "RSM VIDEO";
+
+
+    handle.textContent =
+      data.handle ||
+      "@rsmvideo";
+
+
+    description.textContent =
+      data.description ||
+      "RSM VIDEO Official Channel 🎬";
+
+
+    subscriberCount.textContent =
+      data.subscribers || 0;
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      "❌ Channel Error:\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================
+   AUTH
+========================= */
+
+onAuthStateChanged(
+  auth,
+  async user => {
+
+    currentUser =
+      user;
+
+
+    if(user){
+
+      loginInfo.textContent =
+        "✅ Login: " +
+        (
+          user.email ||
+          "User"
+        );
+
+    }
+    else{
+
+      loginInfo.textContent =
+        "🔐 Subscribe કરવા માટે Login કરો.";
+
+    }
+
+
+    await loadChannel();
+
+
+    if(user){
+
+      await checkSubscription();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   CHECK SUBSCRIPTION
+========================= */
+
+async function checkSubscription(){
+
+  if(!currentUser){
+
+    return;
+
+  }
+
+
+  try{
+
+    const q =
+      query(
+
+        collection(
+          db,
+          "subscriptions"
+        ),
+
+        where(
+          "subscriberId",
+          "==",
+          currentUser.uid
+        ),
+
+        where(
+          "channelOwnerId",
+          "==",
+          CHANNEL_UID
+        ),
+
+        limit(1)
+
+      );
+
+
+    const snapshot =
+      await getDocs(q);
+
+
+    if(!snapshot.empty){
+
+      subscriptionId =
+        snapshot.docs[0].id;
+
+      isSubscribed =
+        true;
+
+
+      subscribeBtn.textContent =
+        "✅ Subscribed";
+
+
+      subscribeBtn.classList.add(
+        "subscribed"
+      );
+
+    }
+    else{
+
+      subscriptionId =
+        null;
+
+      isSubscribed =
+        false;
+
+
+      subscribeBtn.textContent =
+        "🔔 Subscribe";
+
+
+      subscribeBtn.classList.remove(
+        "subscribed"
+      );
+
+    }
+
+  }
+  catch(error){
+
+    console.error(error);
+
+  }
+
+}
+
+
+/* =========================
+   SUBSCRIBE
+========================= */
+
+subscribeBtn.addEventListener(
+  "click",
+  async()=>{
+
+    if(!currentUser){
+
+      alert(
+        "🔐 Subscribe કરવા માટે Login કરો."
+      );
+
+      window.location.href =
+        "login.html";
+
+      return;
+
+    }
+
+
+    /*
+      પોતાનું channel
+    */
+
+    if(
+      currentUser.uid ===
+      CHANNEL_UID
+    ){
+
+      alert(
+        "⚠️ તમે તમારા પોતાના Channel ને Subscribe કરી શકતા નથી."
+      );
+
+      return;
+
+    }
+
+
+    subscribeBtn.disabled =
+      true;
+
+
+    try{
+
+      const data =
+        await getOrCreateChannel();
+
+
+      if(isSubscribed){
+
+        /*
+          UNSUBSCRIBE
+        */
+
+        if(subscriptionId){
+
+          await deleteDoc(
+            doc(
+              db,
+              "subscriptions",
+              subscriptionId
+            )
+          );
+
+        }
+
+
+        await updateDoc(
+          channelRef,
+          {
+            subscribers:
+              increment(-1)
+          }
+        );
+
+
+        isSubscribed =
+          false;
+
+        subscriptionId =
+          null;
+
+
+        subscribeBtn.textContent =
+          "🔔 Subscribe";
+
+
+        subscribeBtn.classList.remove(
+          "subscribed"
+        );
+
+
+        const oldCount =
+          Number(
+            subscriberCount.textContent
+          ) || 0;
+
+
+        subscriberCount.textContent =
+          Math.max(
+            0,
+            oldCount - 1
+          );
+
+      }
+      else{
+
+        /*
+          DUPLICATE CHECK
+        */
+
+        const check =
+          query(
+
+            collection(
+              db,
+              "subscriptions"
+            ),
+
+            where(
+              "subscriberId",
+              "==",
+              currentUser.uid
+            ),
+
+            where(
+              "channelOwnerId",
+              "==",
+              CHANNEL_UID
+            ),
+
+            limit(1)
+
+          );
+
+
+        const existing =
+          await getDocs(check);
+
+
+        if(
+          !existing.empty
+        ){
+
+          subscriptionId =
+            existing.docs[0].id;
+
+          isSubscribed =
+            true;
+
+        }
+        else{
+
+          const newSub =
+            await addDoc(
+              collection(
+                db,
+                "subscriptions"
+              ),
+              {
+
+                subscriberId:
+                  currentUser.uid,
+
+                subscriberEmail:
+                  currentUser.email ||
+                  "",
+
+                channelOwnerId:
+                  CHANNEL_UID,
+
+                createdAt:
+                  new Date().toISOString()
+
+              }
+            );
+
+
+          subscriptionId =
+            newSub.id;
+
+          isSubscribed =
+            true;
+
+
+          /*
+            CREATE NOTIFICATION
+          */
+
+          await addDoc(
+            collection(
+              db,
+              "notifications"
+            ),
+            {
+
+              type:
+                "new_subscriber",
+
+              channelOwnerId:
+                CHANNEL_UID,
+
+              subscriberId:
+                currentUser.uid,
+
+              subscriberEmail:
+                currentUser.email ||
+                "",
+
+              message:
+                (
+                  currentUser.email ||
+                  "Someone"
+                ) +
+                " subscribed to your channel 🎉",
+
+              read:
+                false,
+
+              createdAt:
+                serverTimestamp()
+
+            }
+          );
+
+        }
+
+
+        /*
+          Subscriber count
+        */
+
+        await updateDoc(
+          channelRef,
+          {
+            subscribers:
+              increment(1)
+          }
+        );
+
+
+        subscribeBtn.textContent =
+          "✅ Subscribed";
+
+
+        subscribeBtn.classList.add(
+          "subscribed"
+        );
+
+
+        const oldCount =
+          Number(
+            subscriberCount.textContent
+          ) || 0;
+
+
+        subscriberCount.textContent =
+          oldCount + 1;
+
+      }
+
+
+    }
+    catch(error){
+
+      console.error(error);
+
+      alert

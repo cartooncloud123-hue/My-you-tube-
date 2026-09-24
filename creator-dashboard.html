@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>RSM VIDEO - Creator Dashboard</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f5f7;
+    color:#222;
+}
+
+header{
+    background:#111;
+    color:#fff;
+    padding:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.logo{
+    font-size:21px;
+    font-weight:bold;
+}
+
+.back{
+    border:0;
+    background:#e50914;
+    color:white;
+    padding:9px 14px;
+    border-radius:20px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:18px;
+}
+
+.hero{
+    background:linear-gradient(135deg,#e50914,#ff5722);
+    color:white;
+    padding:25px;
+    border-radius:20px;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    margin-bottom:8px;
+}
+
+.email{
+    margin-top:8px;
+    opacity:.9;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.card h3{
+    color:#777;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.value{
+    font-size:27px;
+    font-weight:bold;
+}
+
+.red{
+    color:#e50914;
+}
+
+.green{
+    color:#159447;
+}
+
+.section{
+    margin-top:18px;
+}
+
+.progress{
+    height:18px;
+    background:#ddd;
+    border-radius:20px;
+    overflow:hidden;
+    margin:14px 0;
+}
+
+.bar{
+    height:100%;
+    width:0%;
+    background:#e50914;
+    transition:.5s;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    margin:10px 0;
+}
+
+.video{
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    margin-bottom:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,.06);
+}
+
+.video-title{
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+button.action{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:12px;
+    background:#111;
+    color:white;
+    font-size:16px;
+    margin-top:10px;
+}
+
+.loading{
+    text-align:center;
+    padding:30px;
+}
+
+.note{
+    background:#fff3cd;
+    color:#664d03;
+    padding:15px;
+    border-radius:12px;
+    margin-top:18px;
+    line-height:1.5;
+}
+
+@media(max-width:600px){
+    .value{
+        font-size:22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">🔴 RSM VIDEO</div>
+
+    <button class="back" onclick="history.back()">
+        ← Back
+    </button>
+
+</header>
+
+
+<div class="container">
+
+    <div class="hero">
+
+        <h1>🎬 Creator Dashboard</h1>
+
+        <div id="email" class="email">
+            Checking login...
+        </div>
+
+    </div>
+
+
+    <div id="loading" class="loading">
+        ⏳ Loading creator data...
+    </div>
+
+
+    <div id="dashboard" style="display:none;">
+
+        <div class="grid">
+
+            <div class="card">
+                <h3>🎬 Total Videos</h3>
+                <div class="value" id="videos">0</div>
+            </div>
+
+            <div class="card">
+                <h3>👁️ Total Views</h3>
+                <div class="value" id="views">0</div>
+            </div>
+
+            <div class="card">
+                <h3>❤️ Total Likes</h3>
+                <div class="value" id="likes">0</div>
+            </div>
+
+            <div class="card">
+                <h3>⏱️ Watch Time</h3>
+                <div class="value red" id="watch">0h</div>
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <div class="card">
+
+                <h2>🎯 3,000 Hours Progress</h2>
+
+                <div class="progress">
+
+                    <div
+                        class="bar"
+                        id="bar">
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <span>Completed</span>
+                    <b id="completed">0h</b>
+                </div>
+
+                <div class="row">
+                    <span>Remaining</span>
+                    <b id="remaining">3000h</b>
+                </div>
+
+                <div class="row">
+                    <span>Progress</span>
+                    <b id="percent">0%</b>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <h2>📊 Your Videos</h2>
+
+            <br>
+
+            <div id="videoList"></div>
+
+        </div>
+
+
+        <button
+            class="action"
+            onclick="location.href='upload.html'">
+
+            ➕ Upload New Video
+
+        </button>
+
+    </div>
+
+
+    <div class="note">
+
+        ⚠️ આ dashboard RSM VIDEO website માટે creator analytics
+        બતાવે છે. Watch time અહીં websiteના player tracking પરથી
+        ગણાય છે; તે YouTubeના official public watch-hoursનો
+        replacement નથી.
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+const firebaseConfig = {
+    apiKey:"AIzaSyDWlmSOewJUk5z2An5Qeabx7AB_AwjFPVc",
+    authDomain:"rsm-video-486d6.firebaseapp.com",
+    projectId:"rsm-video-486d6",
+    storageBucket:"rsm-video-486d6.firebasestorage.app",
+    messagingSenderId:"1022944379126",
+    appId:"1:1022944379126:web:e3bbf6a341feb47a8d6cd7",
+    measurementId:"G-0D39KPEK4B"
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+onAuthStateChanged(auth, async(user)=>{
+
+    if(!user){
+
+        alert("Please login first.");
+
+        location.href="login.html";
+
+        return;
+    }
+
+
+    document.getElementById("email").innerText =
+        "👤 " + (user.email || "Creator");
+
+
+    await loadDashboard(user.uid);
+
+});
+
+
+async function loadDashboard(uid){
+
+    try{
+
+        const q = query(
+            collection(db,"videos"),
+            where("userId","==",uid)
+        );
+
+        const snapshot = await getDocs(q);
+
+
+        let videos = 0;
+        let views = 0;
+        let likes = 0;
+
+
+        const list =
+            document.getElementById("videoList");
+
+        list.innerHTML="";
+
+
+        snapshot.forEach(doc=>{
+
+            const data=doc.data();
+
+            videos++;
+
+            views += Number(data.views || 0);
+
+            likes += Number(data.likes || 0);
+
+
+            const div=document.createElement("div");
+
+            div.className="video";
+
+            div.innerHTML=`
+
+                <div class="video-title">
+                    ${escapeHtml(data.title || "Untitled")}
+                </div>
+
+                <div>
+                    👁️ ${Number(data.views||0).toLocaleString()}
+                    &nbsp;&nbsp;
+                    ❤️ ${Number(data.likes||0).toLocaleString()}
+                </div>
+
+            `;
+
+            list.appendChild(div);
+
+        });
+
+
+        // Creator watch time
+
+        const watchQuery=query(
+            collection(db,"watchSessions"),
+            where("creatorId","==",uid)
+        );
+
+        const watchSnapshot=
+            await getDocs(watchQuery);
+
+
+        let watchSeconds=0;
+
+
+        watchSnapshot.forEach(doc=>{
+
+            const data=doc.data();
+
+            watchSeconds +=
+                Number(data.seconds || 0);
+
+        });
+
+
+        const watchHours =
+            watchSeconds / 3600;
+
+
+        const target=3000;
+
+        const remaining =
+            Math.max(target-watchHours,0);
+
+
+        const progress =
+            Math.min(
+                (watchHours/target)*100,
+                100
+            );
+
+
+        document.getElementById("videos").innerText=
+            videos;
+
+        document.getElementById("views").innerText=
+            views.toLocaleString();
+
+        document.getElementById("likes").innerText=
+            likes.toLocaleString();
+
+        document.getElementById("watch").innerText=
+            watchHours.toFixed(2)+"h";
+
+        document.getElementById("completed").innerText=
+            watchHours.toFixed(2)+"h";
+
+        document.getElementById("remaining").innerText=
+            remaining.toFixed(2)+"h";
+
+        document.getElementById("percent").innerText=
+            progress.toFixed(2)+"%";
+
+        document.getElementById("bar").style.width=
+            progress+"%";
+
+
+        document.getElementById("loading")
+            .style.display="none";
+
+        document.getElementById("dashboard")
+            .style.display="block";
+
+
+    }catch(error){
+
+        console.error(error);
+
+        document.getElementById("loading").innerHTML=
+            "❌ Data load error";
+
+    }
+
+}
+
+
+function escapeHtml(text){
+
+    return String(text)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+</script>
+
+</body>
+</html>

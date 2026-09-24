@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RSM VIDEO - Admin</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:#0f0f0f;
+  color:white;
+  font-family:Arial,sans-serif;
+}
+
+.header{
+  background:#181818;
+  padding:16px;
+  color:red;
+  font-size:22px;
+  font-weight:bold;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:15px;
+}
+
+.login-box{
+  background:#181818;
+  padding:25px;
+  border-radius:15px;
+  text-align:center;
+  margin-top:30px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.stat{
+  background:#181818;
+  padding:15px 8px;
+  border-radius:12px;
+  text-align:center;
+}
+
+.stat-icon{
+  font-size:25px;
+}
+
+.stat-number{
+  font-size:22px;
+  font-weight:bold;
+  margin-top:5px;
+}
+
+.stat-name{
+  color:#aaa;
+  font-size:12px;
+  margin-top:4px;
+}
+
+.status{
+  background:#181818;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:15px;
+}
+
+.video-card{
+  background:#181818;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:15px;
+}
+
+.thumbnail{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.title-input{
+  width:100%;
+  margin-top:10px;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #444;
+  background:#252525;
+  color:white;
+  font-size:16px;
+}
+
+.meta{
+  color:#aaa;
+  font-size:13px;
+  margin-top:8px;
+}
+
+.buttons{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+
+button{
+  flex:1;
+  padding:12px;
+  border:0;
+  border-radius:8px;
+  color:white;
+  font-weight:bold;
+}
+
+.save-btn{
+  background:#008000;
+}
+
+.delete-btn{
+  background:#d00000;
+}
+
+.logout-btn{
+  background:#444;
+  margin-top:10px;
+  width:100%;
+}
+
+.loading{
+  text-align:center;
+  color:#aaa;
+  padding:30px;
+}
+
+@media(max-width:500px){
+  .stats{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  👑 RSM VIDEO ADMIN
+</div>
+
+<div class="container">
+
+  <div id="loginBox" class="login-box" style="display:none;">
+
+    <h2>🔐 Admin Access</h2>
+
+    <p>
+      આ Page ફક્ત Admin માટે છે.
+    </p>
+
+    <button
+      onclick="window.location.href='login.html'">
+      🔑 Login કરો
+    </button>
+
+  </div>
+
+
+  <div id="adminPanel" style="display:none;">
+
+    <div class="status" id="status">
+      ⏳ Admin ચેક થઈ રહ્યું છે...
+    </div>
+
+
+    <div class="stats">
+
+      <div class="stat">
+
+        <div class="stat-icon">
+          🎬
+        </div>
+
+        <div
+          class="stat-number"
+          id="totalVideos">
+          0
+        </div>
+
+        <div class="stat-name">
+          TOTAL VIDEOS
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="stat-icon">
+          👁️
+        </div>
+
+        <div
+          class="stat-number"
+          id="totalViews">
+          0
+        </div>
+
+        <div class="stat-name">
+          TOTAL VIEWS
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="stat-icon">
+          ❤️
+        </div>
+
+        <div
+          class="stat-number"
+          id="totalLikes">
+          0
+        </div>
+
+        <div class="stat-name">
+          TOTAL LIKES
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div id="videoList">
+      <div class="loading">
+        Videos લોડ થઈ રહ્યા છે...
+      </div>
+    </div>
+
+
+    <button
+      class="logout-btn"
+      id="logoutBtn">
+      🚪 Logout
+    </button>
+
+  </div>
+
+</div>
+
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+
+const firebaseConfig={
+
+  apiKey:
+  "AIzaSyDWlmSOewJUk5z2An5Qeabx7AB_AwjFPVc",
+
+  authDomain:
+  "rsm-video-486d6.firebaseapp.com",
+
+  projectId:
+  "rsm-video-486d6",
+
+  storageBucket:
+  "rsm-video-486d6.firebasestorage.app",
+
+  messagingSenderId:
+  "1022944379126",
+
+  appId:
+  "1:1022944379126:web:e3bbf6a341feb47a8d6cd7",
+
+  measurementId:
+  "G-0D39KPEK4B"
+
+};
+
+
+const ADMIN_EMAIL =
+  "mastram8177@gmail.com";
+
+
+const app =
+  initializeApp(firebaseConfig);
+
+const db =
+  getFirestore(app);
+
+const auth =
+  getAuth(app);
+
+
+const loginBox =
+  document.getElementById("loginBox");
+
+const adminPanel =
+  document.getElementById("adminPanel");
+
+const status =
+  document.getElementById("status");
+
+const videoList =
+  document.getElementById("videoList");
+
+
+const totalVideos =
+  document.getElementById("totalVideos");
+
+const totalViews =
+  document.getElementById("totalViews");
+
+const totalLikes =
+  document.getElementById("totalLikes");
+
+
+onAuthStateChanged(
+  auth,
+  (user)=>{
+
+    if(!user){
+
+      loginBox.style.display =
+        "block";
+
+      adminPanel.style.display =
+        "none";
+
+      return;
+
+    }
+
+
+    if(
+      user.email.toLowerCase() !==
+      ADMIN_EMAIL.toLowerCase()
+    ){
+
+      alert(
+        "❌ તમને Admin Access નથી."
+      );
+
+      signOut(auth);
+
+      window.location.href =
+        "index.html";
+
+      return;
+
+    }
+
+
+    loginBox.style.display =
+      "none";
+
+    adminPanel.style.display =
+      "block";
+
+
+    status.innerHTML =
+      "✅ Admin Login: " +
+      user.email;
+
+
+    loadVideos();
+
+  }
+);
+
+
+/* LOAD VIDEOS */
+
+async function loadVideos(){
+
+  try{
+
+    const snapshot =
+      await getDocs(
+        collection(db,"videos")
+      );
+
+
+    let views=0;
+    let likes=0;
+
+
+    totalVideos.textContent =
+      snapshot.size;
+
+
+    videoList.innerHTML="";
+
+
+    snapshot.forEach(
+      (docItem)=>{
+
+        const data =
+          docItem.data();
+
+
+        views +=
+          Number(data.views || 0);
+
+        likes +=
+          Number(data.likes || 0);
+
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "video-card";
+
+
+        const title =
+          data.title ||
+          "RSM VIDEO";
+
+
+        const thumbnail =
+          data.thumbnailUrl ||
+          "https://via.placeholder.com/640x360";
+
+
+        card.innerHTML=`
+
+          <img
+            class="thumbnail"
+            src="${thumbnail}"
+            alt="Video">
+
+
+          <input
+            class="title-input"
+            value="${escapeAttribute(title)}">
+
+
+          <div class="meta">
+
+            👁️ ${data.views || 0}
+            Views
+
+            &nbsp; • &nbsp;
+
+            ❤️ ${data.likes || 0}
+            Likes
+
+          </div>
+
+
+          <div class="buttons">
+
+            <button
+              class="save-btn">
+              💾 Save Title
+            </button>
+
+
+            <button
+              class="delete-btn">
+              🗑️ Delete
+            </button>
+
+          </div>
+
+        `;
+
+
+        const input =
+          card.querySelector(
+            ".title-input"
+          );
+
+
+        const saveButton =
+          card.querySelector(
+            ".save-btn"
+          );
+
+
+        const deleteButton =
+          card.querySelector(
+            ".delete-btn"
+          );
+
+
+        /* SAVE TITLE */
+
+        saveButton.addEventListener(
+          "click",
+          async()=>{
+
+            const newTitle =
+              input.value.trim();
+
+
+            if(!newTitle){
+
+              alert(
+                "⚠️ Title ખાલી ન રાખો."
+              );
+
+              return;
+
+            }
+
+
+            try{
+
+              saveButton.disabled =
+                true;
+
+              saveButton.textContent =
+                "⏳ Saving...";
+
+
+              await updateDoc(
+                doc(
+                  db,
+                  "videos",
+                  docItem.id
+                ),
+                {
+                  title:newTitle
+                }
+              );
+
+
+              saveButton.textContent =
+                "✅ Saved";
+
+
+              status.innerHTML =
+                "✅ Title Updated!";
+
+
+            }catch(error){
+
+              console.error(error);
+
+              alert(
+                "❌ Title update થઈ શક્યું નથી."
+              );
+
+
+              saveButton.disabled =
+                false;
+
+              saveButton.textContent =
+                "💾 Save Title";
+
+            }
+
+          }
+        );
+
+
+        /* DELETE */
+
+        deleteButton.addEventListener(
+          "click",
+          async()=>{
+
+            const confirmDelete =
+              confirm(
+                "⚠️ શું આ Video Delete કરવો છે?"
+              );
+
+
+            if(!confirmDelete){
+              return;
+            }
+
+
+            try{
+
+              deleteButton.disabled =
+                true;
+
+              deleteButton.textContent =
+                "⏳ Deleting...";
+
+
+              await deleteDoc(
+                doc(
+                  db,
+                  "videos",
+                  docItem.id
+                )
+              );
+
+
+              card.remove();
+
+
+              status.innerHTML =
+                "✅ Video Delete થઈ ગયો.";
+
+
+              loadVideos();
+
+
+            }catch(error){
+
+              console.error(error);
+
+              alert(
+                "❌ Video Delete થઈ શક્યો નથી."
+              );
+
+
+              deleteButton.disabled =
+                false;
+
+              deleteButton.textContent =
+                "🗑️ Delete";
+
+            }
+
+          }
+        );
+
+
+        videoList.appendChild(card);
+
+      }
+    );
+
+
+    totalViews.textContent =
+      views;
+
+    totalLikes.textContent =
+      likes;
+
+
+    if(snapshot.empty){
+
+      videoList.innerHTML =
+        '<div class="loading">😔 કોઈ Video નથી.</div>';
+
+    }
+
+
+  }catch(error){
+
+    console.error(error);
+
+    status.innerHTML =
+      "❌ Videos load થઈ શક્યા નથી.";
+
+  }
+
+}
+
+
+/* LOGOUT */
+
+document
+  .getElementById("logoutBtn")
+  .addEventListener(
+    "click",
+    async()=>{
+
+      await signOut(auth);
+
+      window.location.href =
+        "login.html";
+
+    }
+  );
+
+
+/* HTML SECURITY */
+
+function escapeAttribute(text){
+
+  return text
+    .replace(/&/g,"&amp;")
+    .replace(/"/g,"&quot;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;");
+
+}
+
+</script>
+
+</body>
+</html>
